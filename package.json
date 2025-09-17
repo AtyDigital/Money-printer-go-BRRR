@@ -27,7 +27,7 @@
     "semantic-release": "cross-env HUSKY=0 semantic-release"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "eslintConfig": {
     "plugins": [
