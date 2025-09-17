@@ -4,7 +4,7 @@ import {
   faFont,
   faMusic,
   faMusicSlash,
-} from '@fortawesome/pro-solid-svg-icons';
+} from '@fortawesome/free-solid-svg-icons';
 import Title from '../Title';
 import Slider from './Slider';
 import Button from './Button';
