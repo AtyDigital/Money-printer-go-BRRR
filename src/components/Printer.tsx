@@ -33,7 +33,8 @@ const Bill = styled.img`
 
 type Props = {
   isPrinting: boolean;
-  playbackRate: number; // This line was added
+  playbackRate: number;
+  className?: string; // This line was added
 };
 
 const Printer = ({ isPrinting, playbackRate, ...props }: Props) => {
@@ -45,7 +46,7 @@ const Printer = ({ isPrinting, playbackRate, ...props }: Props) => {
             url="print.mp4"
             player={FilePlayer}
             playing={isPrinting}
-            playbackRate={playbackRate} // This line was added
+            playbackRate={playbackRate}
             loop
             muted
             playsinline
