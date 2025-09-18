@@ -33,9 +33,10 @@ const Bill = styled.img`
 
 type Props = {
   isPrinting: boolean;
+  playbackRate: number; // This line was added
 };
 
-const Printer = ({ isPrinting, ...props }: Props) => {
+const Printer = ({ isPrinting, playbackRate, ...props }: Props) => {
   return (
     <Wrapper {...props}>
       <Shake active={isPrinting}>
@@ -44,10 +45,11 @@ const Printer = ({ isPrinting, ...props }: Props) => {
             url="print.mp4"
             player={FilePlayer}
             playing={isPrinting}
+            playbackRate={playbackRate} // This line was added
             loop
             muted
             playsinline
-            config={{ // This config object is now correct
+            config={{
               file: {
                 attributes: {
                   poster: 'poster.png',
