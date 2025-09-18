@@ -28,7 +28,9 @@ const Controls = ({
       <Title icon={faMusic}>Printer Speed</Title>
       <Slider handleRateSlider={handleRateSlider} />
       <Title icon={isMuted ? faVolumeMute : faMusic}>Sound</Title>
-      <button onClick={handleMute}>{isMuted ? 'Unmute' : 'Mute'}</button>
+      <button type="button" onClick={handleMute}>
+        {isMuted ? 'Unmute' : 'Mute'}
+      </button>
     </div>
   );
 };
