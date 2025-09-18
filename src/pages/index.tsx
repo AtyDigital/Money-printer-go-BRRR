@@ -1,60 +1,60 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import Music from '../components/Music';
+import { useState, useMemo } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
+import normalize from 'normalize.css';
 import Chart from '../components/Chart';
-import Controls from '../components/Controls/Controls';
-import Printer from '../components/Printer';
+import Controls from '../components/Controls';
 import Footer from '../components/Footer';
-import 'csshake';
+import Music from '../components/Music';
+import Printer from '../components/Printer';
+import Title from '../components/Title';
 
-const Container = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const GlobalStyle = createGlobalStyle`
+  ${normalize}
+  html {
+    font-family: 'Inter', sans-serif;
+  }
 `;
 
 const Main = styled.main`
-  width: 100%;
-  flex: 1;
-  overflow: hidden;
+  display: grid;
+  grid-gap: 2rem;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 `;
 
 const Home = () => {
-  const [playbackRate, setPlaybackRate] = useState(25);
-  const [muted, setMute] = useState(false);
-  const [symbol, setSymbol] = useState('DJI');
+  const [symbol, setSymbol] = useState('SPY');
+  const [playbackRate, setPlaybackRate] = useState(50);
+  const [muted, setMuted] = useState(false);
+  const isPrinting = playbackRate > 0;
+  const shakeClass = useMemo(
+    () => (isPrinting ? 'shake-hard' : 'shake-little'),
+    [isPrinting]
+  );
 
   const handleRateSlider = (value: number) => {
     setPlaybackRate(value);
   };
 
-  const handleToggleMute = () => setMute((prev) => !prev);
-
-  let shakeClass = 'shake-constant';
-  if (playbackRate >= 90) shakeClass += ' shake-hard';
-  else if (playbackRate >= 70) shakeClass += ' shake';
-  else if (playbackRate >= 50) shakeClass += ' shake-little';
-
   return (
-    <Container>
-      <Music playbackRate={playbackRate} muted={muted} />
+    <>
+      <GlobalStyle />
+      <Title />
       <Main>
         <Chart symbol={symbol} className={shakeClass} />
-        <Printer playbackRate={playbackRate} className={shakeClass} />
+        <Printer isPrinting={isPrinting} playbackRate={playbackRate} className={shakeClass} />
         <Controls
           handleRateSlider={handleRateSlider}
           handleChangeSymbol={setSymbol}
-          symbol={symbol}
-          playbackRate={playbackRate}
-          muted={muted}
-          handleToggleMute={handleToggleMute}
-          className={shakeClass}
+          handleMute={() => setMuted(!muted)}
+          isMuted={muted}
         />
       </Main>
+      <Music playbackRate={playbackRate} muted={muted} />
       <Footer />
-    </Container>
+    </>
   );
 };
 
