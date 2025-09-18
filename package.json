@@ -98,6 +98,7 @@
   },
  "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "csshake": "github:elrumordelaluz/csshake",
@@ -134,3 +135,4 @@
     "typescript": "^5.4.5"
   }
 }
+"feat: add fontawesome brand icons"
