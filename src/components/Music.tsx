@@ -1,16 +1,14 @@
-import styled from 'styled-components';
+import ReactPlayer from 'react-player/lazy';
 import YouTubePlayer from 'react-player/youtube';
-import Player from './Player';
+import styled from 'styled-components';
 
-const MusicPlayer = styled(Player)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
+const MusicPlayer = styled(ReactPlayer)`
+  position: fixed !important;
+  bottom: 1rem;
+  right: 1rem;
+  width: 1px !important;
+  height: 1px !important;
   opacity: 0;
-  pointer-events: none;
-  z-index: -2;
 `;
 
 type Props = {
@@ -23,14 +21,18 @@ const Music = ({ playbackRate, muted, ...props }: Props) => (
     url="https://www.youtube.com/watch?v=fTFxE32onKs"
     player={YouTubePlayer}
     playbackRate={Math.max(playbackRate / 25, 0.25)}
-    config={{ // <-- START OF FIX
+    playing
+    loop
+    muted={muted}
+    controls={false}
+    config={{
       youtube: {
         playerVars: {
           autoplay: 1,
           disablekb: 1,
         },
       },
-    }} // <-- END OF FIX
+    }}
     {...props}
   />
 );
