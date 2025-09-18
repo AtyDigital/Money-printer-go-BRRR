@@ -1,76 +1,73 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import ReactPlayer from 'react-player/lazy';
 import FilePlayer from 'react-player/file';
-import Player from './Player';
+import styled from 'styled-components';
+import Shake from './Shake';
 
-const Container = styled.div<{ $ready: boolean }>`
+const Wrapper = styled.div`
   position: relative;
-  padding-top: calc(min(77.3%, 100vh - 50px)); /* 773px / 1000px * 100% */
-  top: 0;
-  left: 25%;
-  min-height: 100%;
-  ${({ $ready }) =>
-    !$ready &&
-    `background: url('print.gif') center center / contain no-repeat #FFF;`}
-  z-index: -1;
+`;
 
-  @media only screen and (max-width: 768px) {
-    top: 275px;
-    padding-top: 77.3%;
-    left: 0;
+const Video = styled.div`
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid #000;
+  line-height: 0;
+`;
+
+const PrinterPlayer = styled(ReactPlayer)`
+  video {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
   }
 `;
 
-const PrinterPlayer = styled(Player)`
-  width: 100%;
-  height: 100%;
+const Bill = styled.img`
   position: absolute;
-  top: 0;
+  width: 100%;
+  height: auto;
+  bottom: 0;
   left: 0;
   pointer-events: none;
-  outline: none;
-  ${({ ready }) => !ready && 'opacity: 0;'}
-
-  @media only screen and (max-width: 768px) {
-    width: 50%;
-  }
 `;
 
 type Props = {
-  className?: string;
-  playbackRate: number;
+  isPrinting: boolean;
 };
 
-const Printer = ({ className, playbackRate }: Props) => {
-  const [ready, setReady] = useState(true);
-
-  const printRate = Math.max(Math.min(2, playbackRate / 25), 0.08);
-
-  const handleReady = () => setReady(true);
-  const handleError = () => setReady(false);
-
+const Printer = ({ isPrinting, ...props }: Props) => {
   return (
-    <Container $ready={ready} className={className}>
-      <PrinterPlayer
-        url="print.mp4"
-        player={FilePlayer}
-        config={{
-          file: {
-            attributes: {
-              poster: 'print.gif',
-            },
-          },
+    <Wrapper {...props}>
+      <Shake active={isPrinting}>
+        <Video>
+          <PrinterPlayer
+            url="print.mp4"
+            player={FilePlayer}
+            playing={isPrinting}
+            loop
+            muted
+            playsinline
+            config={{ // This config object is now correct
+              file: {
+                attributes: {
+                  poster: 'poster.png',
+                },
+              },
+            }}
+          />
+        </Video>
+      </Shake>
+      <Bill
+        src="bill.png"
+        alt="100 dollar bill"
+        width="1440"
+        height="614"
+        style={{
+          transform: `translateY(${isPrinting ? 0 : 100}%)`,
+          transition: `transform 2s ease-in-out`,
         }}
-        width="100%"
-        height="100%"
-        playsinline
-        playbackRate={printRate}
-        ready={ready}
-        onReady={handleReady}
-        onError={handleError}
-        onPlay={handleReady}
       />
-    </Container>
+    </Wrapper>
   );
 };
 
