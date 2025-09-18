@@ -23,12 +23,14 @@ const Music = ({ playbackRate, muted, ...props }: Props) => (
     url="https://www.youtube.com/watch?v=fTFxE32onKs"
     player={YouTubePlayer}
     playbackRate={Math.max(playbackRate / 25, 0.25)}
-    config={{
-      playerVars: { start: 0, controls: 0, disablekb: 1, modestbranding: 1 },
-    }}
-    width="0"
-    height="0"
-    muted={muted}
+    config={{ // <-- START OF FIX
+      youtube: {
+        playerVars: {
+          autoplay: 1,
+          disablekb: 1,
+        },
+      },
+    }} // <-- END OF FIX
     {...props}
   />
 );
