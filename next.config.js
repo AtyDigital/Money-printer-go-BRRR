@@ -1,19 +1,16 @@
-const withPlugins = require('next-compose-plugins');
-const withPWA = require('next-pwa');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
 });
 
-const nextPlugins = [withBundleAnalyzer, withPWA];
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
+  reactStrictMode: true,
   compiler: {
     styledComponents: true,
   },
-  pwa: {
-    dest: 'public',
-  },
 };
 
-module.exports = withPlugins(nextPlugins, nextConfig);
+module.exports = withPWA(nextConfig);
